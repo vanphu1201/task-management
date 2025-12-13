@@ -122,7 +122,7 @@ module.exports.changeMulti = async (req, res) => {
 }
 
 // [POST] /api/v1/tasks/create
-module.exports.create = async () => {
+module.exports.create = async (req, res) => {
     try {
         const newTask = new Task(req.body);
         const data = await newTask.save();
@@ -137,5 +137,24 @@ module.exports.create = async () => {
             code: 400,
             message: "Lỗi tạo mới"
         });
+    }
+}
+
+
+// [PATCH] /api/v1/tasks/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Task.updateOne({_id: id}, req.body);
+
+        res.json({
+            code: 200,
+            message: "Cập nhập nhiệm vụ thành công!"
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Lỗi cập nhập nhiệm vụ !"
+        })
     }
 }
