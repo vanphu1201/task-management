@@ -15,5 +15,7 @@ route.post("/create", controller.create);
 
 route.patch("/edit/:id", controller.edit);
 
+route.delete("/delete/:id", controller.delete);
+
 
 module.exports = route;
