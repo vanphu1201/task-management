@@ -9,8 +9,8 @@ route.get("/detail/:id", controller.detail);
 
 route.patch("/change-status/:id", controller.changeStatus);
 
-route.get("/change-multi", controller.changeMulti);
+route.patch("/change-multi", controller.changeMulti);
 
-
+route.post("/create", controller.create);
 
 module.exports = route;
