@@ -10,7 +10,11 @@ module.exports.index = async (req, res) => {
         find.status = req.query.status;
     }
 
-    const tasks = await Task.find(find);
+    if (req.query.sortKey && req.query.sortValue) {
+        find[sortKey] = sortValue;
+    }
+
+    const tasks = await Task.find(find).sort(sort);
 
     res.json(tasks)
 }
