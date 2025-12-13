@@ -25,6 +25,14 @@ module.exports.index = async (req, res) => {
     );
     // End Pagination
 
+    // Search
+    let keyword = req.query.keyword;
+    if (keyword){
+        const regex = new RegExp(keyword, "i");
+        find.title = regex;
+    }
+    // End Search
+
 
     const sort = {};
 
