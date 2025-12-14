@@ -7,5 +7,7 @@ route.post("/register", controller.register);
 
 route.post("/login", controller.login);
 
+route.post("/password/forgot", controller.forgotPassword);
+
 
 module.exports = route;
