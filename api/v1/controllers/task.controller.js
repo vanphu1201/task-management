@@ -109,7 +109,7 @@ module.exports.changeMulti = async (req, res) => {
                         _id: {$in: ids}
                     }, {
                         deleted: true,
-                        deletedAt: new Date();
+                        deletedAt: new Date()
                     });
                     res.json({
                         code: 200,

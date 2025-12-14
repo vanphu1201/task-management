@@ -8,8 +8,12 @@ const routeApiV1 = require("./api/v1/routes/index.route");
 
 const bodyParser = require('body-parser');
 
+const cors = require('cors');
+
 const app = express();
 const port = process.env.PORT;
+
+app.use(cors());
 
 app.use(bodyParser.json())
 
