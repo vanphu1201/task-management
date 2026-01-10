@@ -23,7 +23,10 @@ module.exports.register = async (req, res) => {
                 message: "Email đã tồn tại"
             })
         } else {
-            const newUser = new User(req.body);
+            const newUser = new User({
+                ...req.body,
+                token: generate.generateRandomString(20)
+            });
             await newUser.save();
 
             const token = newUser.token;
@@ -35,7 +38,7 @@ module.exports.register = async (req, res) => {
                 token: token
             })
         }
-        
+
     } catch (error) {
         res.json({
             code: 400,
@@ -59,7 +62,7 @@ module.exports.login = async (req, res) => {
             res.json({
                 code: 400,
                 message: "Email không tồn tại!"
-            })         
+            })
             return;
         }
 
@@ -67,10 +70,10 @@ module.exports.login = async (req, res) => {
             res.json({
                 code: 400,
                 message: "Mật khẩu không đúng!"
-            })         
+            })
             return;
         }
-        
+
         const token = user.token;
         res.cookie("token", token);
 
@@ -115,7 +118,7 @@ module.exports.forgotPassword = async (req, res) => {
         const objectForgotPassword = {
             email: email,
             otp: otp,
-            expireAt: Date.now() + timeExpire*60,
+            expireAt: Date.now() + timeExpire * 60,
         }
 
         const forgotPassword = new ForgotPassword(objectForgotPassword);
@@ -161,7 +164,7 @@ module.exports.otpPassword = async (req, res) => {
         return;
     }
 
-    const user = await User.findOne({email: email});
+    const user = await User.findOne({ email: email });
 
     const token = user.token;
     res.cookie("token", token);
@@ -179,7 +182,7 @@ module.exports.resetPassword = async (req, res) => {
     const token = req.body.token;
     const password = req.body.password;
 
-    const user = await User.findOne({token: token});
+    const user = await User.findOne({ token: token });
 
     if (md5(password) === user.password) {
         res.json({
@@ -189,7 +192,7 @@ module.exports.resetPassword = async (req, res) => {
         return;
     }
 
-    await User.updateOne({token: token}, {password: md5(password)});
+    await User.updateOne({ token: token }, { password: md5(password) });
 
     res.json({
         code: 200,
