@@ -3,8 +3,10 @@ const userRoute = require("./user.route");
 
 const version = "/api/v1";
 
+const authMiddleware = require("../middlewares/auth.middleware");
+
 module.exports = (app) => {
-    app.use(version + "/tasks", taskRoute);
+    app.use(version + "/tasks", authMiddleware, taskRoute);
 
     app.use(version + "/users", userRoute);
 }
